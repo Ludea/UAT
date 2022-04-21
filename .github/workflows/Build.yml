@@ -17,7 +17,9 @@ jobs:
         dotnet-version: 6.0.x
     - name: Restore dependencies
       run: dotnet restore
-    - name: Build
+    - name: Build UBT
+      run: dotnet build UnrealBuildTool/UnrealBuildTool.csproj
+    - name: Build UAT
       run: dotnet build AutomationTool.csproj
     - name: Test
       run: dotnet test --no-build --verbosity normal
