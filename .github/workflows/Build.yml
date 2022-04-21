@@ -17,7 +17,9 @@ jobs:
         dotnet-version: 6.0.x
     - name: Restore dependencies
       run: dotnet restore
-    - name: Build UBT
+    - name: Build DotnetZip.reduced
+      run: dotnet build Dotnet "Zip.Semverd/src/Zip Reduced/Zip Reduced.csproj"
+    - name: Build !UBT
       run: dotnet build UnrealBuildTool/UnrealBuildTool.csproj
     - name: Build UAT
       run: dotnet build AutomationTool.csproj
