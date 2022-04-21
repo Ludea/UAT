@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Configuration Condition=" '$(Configuration)' == '' ">Development</Configuration>
     <OutputType>Exe</OutputType>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
@@ -12,10 +12,10 @@
     <RootNamespace>UnrealBuildTool</RootNamespace>
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages> <!-- remove non english resource languages -->
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-    <IsWindows Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">true</IsWindows> 
-    <IsOSX Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</IsOSX> 
-    <IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">true</IsLinux> 
-    <DebugType>pdbonly</DebugType> 
+    <IsWindows Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">true</IsWindows>
+    <IsOSX Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</IsOSX>
+    <IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">true</IsLinux>
+    <DebugType>pdbonly</DebugType>
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <Choose>
@@ -84,7 +84,7 @@
 
   <!-- The following will glob all platform extensions' UnrealBuildTool source
   files and include them in the build. They will also appear in VisualStudio.
-  RecursiveDir does not work in VS Mac (and maybe Linux?), so only use it in Windows. 
+  RecursiveDir does not work in VS Mac (and maybe Linux?), so only use it in Windows.
   See: https://developercommunity.visualstudio.com/content/problem/527478/recursivedir-causes-infinitely-nested-subdirectori.html -->
   <ItemGroup>
     <Compile Include="../../../Platforms/*/Source/Programs/UnrealBuildTool/**/*.cs">
@@ -120,6 +120,6 @@
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.1" />
 
     <!-- Required for Hololens -->
-    <PackageReference Include="System.Reflection.MetadataLoadContext" Version="4.7.2" /> 
+    <PackageReference Include="System.Reflection.MetadataLoadContext" Version="6.0.0" />
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
-<Project>
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>TargetFramework</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <Configuration Condition=" '$(Configuration)' == '' ">Development</Configuration>
     <OutputType>Exe</OutputType>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
@@ -8,37 +9,30 @@
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
     <Configurations>Debug;Release;Development</Configurations>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <RootNamespace>AutomationTool</RootNamespace>
-    <AssemblyName>AutomationTool</AssemblyName>
     <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
     <OutputPath>..\..\..\Binaries\DotNET\AutomationTool</OutputPath>
     <EnableDefaultItems>false</EnableDefaultItems>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-    <SatelliteResourceLanguages>en</SatelliteResourceLanguages> <!-- remove non english resource languages -->
-    <IsWindows Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">true</IsWindows> 
-    <IsOSX Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</IsOSX> 
-    <IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">true</IsLinux> 
-    <DebugType>pdbonly</DebugType>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks> <!-- required for FileMatcher support code in MSBuild subdir -->
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <IsWindows Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">true</IsWindows>
+    <IsOSX Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</IsOSX>
+    <IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">true</IsLinux>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
-  
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Development|AnyCPU' ">
     <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
     <Optimize>true</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
-    <Optimize>true</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
   </PropertyGroup>
   <Choose>
     <When Condition="'$(IsOSX)'=='true'">
       <PropertyGroup>
-        <!-- Set runtime identifier for osx so that it produces a app host executable (consistency with the other platforms) -->
         <RuntimeIdentifier>osx-x64</RuntimeIdentifier>
       </PropertyGroup>
     </When>
@@ -58,68 +52,832 @@
       <Private>true</Private>
     </Reference>
   </ItemGroup>
-  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.WindowsDesktop" Condition="'$(IsWindows)'=='true'" />
-  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.WindowsDesktop" Condition="'$(IsWindows)'=='true'" />
-  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" Condition="'$(IsWindows)'!='true'" />
-  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" Condition="'$(IsWindows)'!='true'" />
   <Choose>
     <When Condition="'$(IsWindows)'=='true'">
       <PropertyGroup>
-        <!-- Reset output type back to a console application as the import of WindowsDesktop sets it to a windows executable -->
         <OutputType>Exe</OutputType>
       </PropertyGroup>
     </When>
   </Choose>
-
   <ItemGroup>
-    <Compile Include="Shared\MetaData.cs">
+    <Compile Update="Shared\MetaData.cs">
       <Link>Properties\MetaData.cs</Link>
     </Compile>
-    <Compile Include="CompileScriptModules.cs" />
-    <Compile Include="ThirdParty\MSBuild\ErrorUtilities.cs" />
-    <Compile Include="ThirdParty\MSBuild\ExceptionHandling.cs" />
-    <Compile Include="ThirdParty\MSBuild\FileMatcher.cs" />
-    <Compile Include="ThirdParty\MSBuild\FileSystem\FileSystems.cs" />
-    <Compile Include="ThirdParty\MSBuild\FileSystem\IFileSystem.cs" />
-    <Compile Include="ThirdParty\MSBuild\FileSystem\ManagedFileSystem.cs" />
-    <Compile Include="ThirdParty\MSBuild\FileSystem\MSBuildOnWindowsFileSystem.cs" />
-    <Compile Include="ThirdParty\MSBuild\FileSystem\NativeWin32Exception.cs" />
-    <Compile Include="ThirdParty\MSBuild\FileSystem\SafeFileHandle.cs" />
-    <Compile Include="ThirdParty\MSBuild\FileSystem\WindowsFileSystem.cs" />
-    <Compile Include="ThirdParty\MSBuild\FileSystem\WindowsNative.cs" />
-    <Compile Include="ThirdParty\MSBuild\FileUtilities.cs" />
-    <Compile Include="ThirdParty\MSBuild\InternalErrorException.cs" />
-    <Compile Include="ThirdParty\MSBuild\NativeMethodsShared.cs" />
-    <Compile Include="ThirdParty\MSBuild\ResourceUtilities.cs" />
-    <Compile Include="ThirdParty\MSBuild\ReusableStringBuilder.cs" />
-    <Compile Include="ThirdParty\MSBuild\Traits.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="app.manifest">
+    <None Update="app.manifest">
       <SubType>Designer</SubType>
     </None>
     <None Include="..\..\..\Intermediate\ProjectFiles\AutomationTool.csproj.References" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.Build" Version="16.9.0" ExcludeAssets="runtime" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Build.Locator" Version="1.4.1" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.310801">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="6.0.0" />
   </ItemGroup>
-  
   <ItemGroup>
-    <ProjectReference Include="Shared\EpicGames.Core\EpicGames.Core.csproj" PrivateAssets="all" />
-    <ProjectReference Include="Shared\EpicGames.Build\EpicGames.Build.csproj" PrivateAssets="all" />
-    <ProjectReference Include="UnrealBuildTool\UnrealBuildTool.csproj" PrivateAssets="all" />
+    <ProjectReference Include="Shared\EpicGames.Core\EpicGames.Core.csproj" />
+    <ProjectReference Include="Shared\EpicGames.Build\EpicGames.Build.csproj" />
+    <ProjectReference Include="UnrealBuildTool\UnrealBuildTool.csproj" />
   </ItemGroup>
-  
   <ItemGroup>
-    <None Include="..\..\..\Build\BatchFiles\BuildUAT.bat"><Link>BatchFiles\BuildUAT.bat</Link></None>
-    <None Include="..\..\..\Build\BatchFiles\BuildUAT.sh"><Link>BatchFiles\BuildUAT.sh</Link></None>
-    <None Include="..\..\..\Build\BatchFiles\RunUAT.bat"><Link>BatchFiles\RunUAT.bat</Link></None>
-    <None Include="..\..\..\Build\BatchFiles\RunUAT.sh"><Link>BatchFiles\RunUAT.sh</Link></None>
-    <None Include="..\..\..\Build\BatchFiles\RunUAT.command"><Link>BatchFiles\RunUAT.command</Link></None>
+    <None Include="..\..\..\Build\BatchFiles\BuildUAT.bat">
+      <Link>BatchFiles\BuildUAT.bat</Link>
+    </None>
+    <None Include="..\..\..\Build\BatchFiles\BuildUAT.sh">
+      <Link>BatchFiles\BuildUAT.sh</Link>
+    </None>
+    <None Include="..\..\..\Build\BatchFiles\RunUAT.bat">
+      <Link>BatchFiles\RunUAT.bat</Link>
+    </None>
+    <None Include="..\..\..\Build\BatchFiles\RunUAT.sh">
+      <Link>BatchFiles\RunUAT.sh</Link>
+    </None>
+    <None Include="..\..\..\Build\BatchFiles\RunUAT.command">
+      <Link>BatchFiles\RunUAT.command</Link>
+    </None>
   </ItemGroup>
-  
-  <!-- Reference file is generated by GenerateProjectFiles scripts (calling UnrealBuildTool). It contains a list of all project files known to UBT based on how it was run. -->
-  <Import Project="..\..\..\Intermediate\ProjectFiles\AutomationTool.csproj.References" Condition="Exists('..\..\..\Intermediate\ProjectFiles\AutomationTool.csproj.References') And '$(VisualStudioDir)' != '' And '$(AutomationToolProjectOnly)' == ''" />
+  <ItemGroup>
+    <Compile Remove="Android\AndroidFileClient.cs" />
+    <Compile Remove="Android\AndroidPlatform.Automation.cs" />
+    <Compile Remove="Android\Properties\AssemblyInfo.cs" />
+    <Compile Remove="AutomationUtils\Automation.cs" />
+    <Compile Remove="AutomationUtils\AutomationException.cs" />
+    <Compile Remove="AutomationUtils\BuildCommand.cs" />
+    <Compile Remove="AutomationUtils\BuildUtils.cs" />
+    <Compile Remove="AutomationUtils\BundleUtils.cs" />
+    <Compile Remove="AutomationUtils\CommandEnvironment.cs" />
+    <Compile Remove="AutomationUtils\CommandletUtils.cs" />
+    <Compile Remove="AutomationUtils\CommandUtils.cs" />
+    <Compile Remove="AutomationUtils\DeploymentContext.cs" />
+    <Compile Remove="AutomationUtils\DeviceReservation.cs" />
+    <Compile Remove="AutomationUtils\Distiller.cs" />
+    <Compile Remove="AutomationUtils\FileRegions.cs" />
+    <Compile Remove="AutomationUtils\GoogleDriveHelper.cs" />
+    <Compile Remove="AutomationUtils\GoogleSheetsHelper.cs" />
+    <Compile Remove="AutomationUtils\HashCollection.cs" />
+    <Compile Remove="AutomationUtils\HelpUtils.cs" />
+    <Compile Remove="AutomationUtils\HostPlatform.cs" />
+    <Compile Remove="AutomationUtils\ImageUtils.cs" />
+    <Compile Remove="AutomationUtils\Json.cs" />
+    <Compile Remove="AutomationUtils\LinuxHostPlatform.cs" />
+    <Compile Remove="AutomationUtils\LogUtils.cs" />
+    <Compile Remove="AutomationUtils\MacHostPlatform.cs" />
+    <Compile Remove="AutomationUtils\MCPPublic.cs" />
+    <Compile Remove="AutomationUtils\P4Environment.cs" />
+    <Compile Remove="AutomationUtils\P4Utils.cs" />
+    <Compile Remove="AutomationUtils\P4WriteConfig.cs" />
+    <Compile Remove="AutomationUtils\PackageUtils.cs" />
+    <Compile Remove="AutomationUtils\ParallelExecutor.cs" />
+    <Compile Remove="AutomationUtils\Platform.cs" />
+    <Compile Remove="AutomationUtils\ProcessUtils.cs" />
+    <Compile Remove="AutomationUtils\ProjectParams.cs" />
+    <Compile Remove="AutomationUtils\ProjectUtils.cs" />
+    <Compile Remove="AutomationUtils\Properties\AssemblyInfo.cs" />
+    <Compile Remove="AutomationUtils\ScriptManager.cs" />
+    <Compile Remove="AutomationUtils\SharedUtils.cs" />
+    <Compile Remove="AutomationUtils\StagedDirectoryReference.cs" />
+    <Compile Remove="AutomationUtils\StagedFileReference.cs" />
+    <Compile Remove="AutomationUtils\StagedFileSystemReference.cs" />
+    <Compile Remove="AutomationUtils\StreamUtils.cs" />
+    <Compile Remove="AutomationUtils\UBTUtils.cs" />
+    <Compile Remove="AutomationUtils\UnrealBuild.cs" />
+    <Compile Remove="AutomationUtils\Utils.cs" />
+    <Compile Remove="AutomationUtils\WindowsHostPlatform.cs" />
+    <Compile Remove="BuildGraph\BuildGraph.cs" />
+    <Compile Remove="BuildGraph\JobContext.cs" />
+    <Compile Remove="BuildGraph\Properties\AssemblyInfo.cs" />
+    <Compile Remove="BuildGraph\Task.cs" />
+    <Compile Remove="BuildGraph\Tasks\AgeStoreTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\AwsAssumeRoleTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\AwsEcsDeployTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\AwsTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\CommandletTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\CommandTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\CompileTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\CookTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\CopyTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\CsCompileTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\DeleteTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\DockerBuildTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\DockerComposeDownTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\DockerComposeUpTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\DockerPushTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\DockerTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\DotNetTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\GatherBuildProductsFromFileTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\GitCloneTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\GitTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\HelmTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\KubectlTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\LogTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\ModifyConfigTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\ModifyJsonValue.cs" />
+    <Compile Remove="BuildGraph\Tasks\MoveTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\MsBuildTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\NotarizeTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\PakFileTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\RenameTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\SanitizeReceiptTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\SetVersionTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\SignTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\SpawnTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\StageTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\StripTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\SubmitTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\SymStoreTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\TagReceiptTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\TagTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\UnzipTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\UploadTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\WaitTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\WriteTextFileTask.cs" />
+    <Compile Remove="BuildGraph\Tasks\ZipTask.cs" />
+    <Compile Remove="BuildGraph\TempStorage.cs" />
+    <Compile Remove="CookedEditor\CookedEditor.Automation.cs" />
+    <Compile Remove="CookedEditor\PlatformWrappers.cs" />
+    <Compile Remove="CookedEditor\Properties\AssemblyInfo.cs" />
+    <Compile Remove="CrowdinLocalization\CrowdinLocalizationProvider.cs" />
+    <Compile Remove="CrowdinLocalization\Properties\AssemblyInfo.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\BZip2 Tests\BZip2UnitTest1.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\BZip2 Tests\Properties\AssemblyInfo.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\BZip2\BitWriter.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\BZip2\BZip2Compressor.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\BZip2\BZip2InputStream.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\BZip2\BZip2OutputStream.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\BZip2\ParallelBZip2OutputStream.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\BZip2\Properties\AssemblyInfo.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\BZip2\Rand.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\CommonSrc\CRC32.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Examples\C#\CreateZip\CreateZip.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Examples\C#\CreateZip\Properties\AssemblyInfo.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Examples\C#\ReadZip\Properties\AssemblyInfo.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Examples\C#\ReadZip\ReadZip.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Examples\C#\WinForms-QuickZip\AssemblyInfo.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Examples\C#\WinForms-QuickZip\QuickZip.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Examples\C#\ZipDir\Properties\AssemblyInfo.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Examples\C#\ZipDir\ZipDir.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Examples\C#\ZipTreeView\Form1.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Examples\C#\ZipTreeView\Form1.Designer.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Examples\C#\ZipTreeView\Program.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Examples\C#\ZipTreeView\Properties\AssemblyInfo.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Examples\C#\ZipTreeView\Properties\Resources.Designer.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Examples\C#\ZipTreeView\Properties\Settings.Designer.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Examples\C#\ZLIB\ParallelGZipOutputStream.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Examples\C#\ZLIB\QuickCompress.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Examples\C#\ZLIB\test_dict_deflate_inflate.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Examples\C#\ZLIB\test_flush_sync.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Examples\C#\ZLIB\test_large_deflate_inflate.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Examples\C#\ZLIB\ZlibDeflateInflate.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Examples\C#\ZLIB\ZlibStreamExample.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Examples\SolutionInfo.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\ListContents\Program.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\SolutionInfo.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Tools\BZip2\AssemblyInfo.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Tools\BZip2\BZip2.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Tools\ConvertZipToSfx\ConvertZipToSfx.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Tools\ConvertZipToSfx\Properties\AssemblyInfo.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Tools\GZip\AssemblyInfo.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Tools\GZip\GZip.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Tools\UnZip\Properties\AssemblyInfo.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Tools\UnZip\UnZip.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Tools\WinFormsApp\Extensions.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Tools\WinFormsApp\Form.DragDrop.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Tools\WinFormsApp\Form.State.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Tools\WinFormsApp\ListViewEx.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Tools\WinFormsApp\Program.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Tools\WinFormsApp\Properties\AssemblyInfo.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Tools\WinFormsApp\Properties\Resources.Designer.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Tools\WinFormsApp\Properties\Settings.Designer.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Tools\WinFormsApp\ZipForm.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Tools\WinFormsApp\ZipForm.Designer.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Tools\ZipIt\Properties\AssemblyInfo.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Tools\ZipIt\ZipIt.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip NetStandard\Properties\AssemblyInfo.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip Tests\BasicTests.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip Tests\Compatibility.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip Tests\ErrorTests.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip Tests\ExtendedTests.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip Tests\IonicTestClass.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip Tests\LongRunning.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip Tests\NonSeekableOutputStream.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip Tests\PasswordTests.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip Tests\Progress.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip Tests\Properties\AssemblyInfo.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip Tests\RandomBytesInputStream.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip Tests\RandomTextGenerator.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip Tests\Selector.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip Tests\SelfExtractor.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip Tests\SplitArchives.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip Tests\Streams.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip Tests\TestUtilities.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip Tests\UnicodeTests.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip Tests\UpdateTests.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip Tests\WinZipAesTests.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip Tests\Zip64Tests.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Android\Properties\AssemblyInfo.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Android\Resources\Resource.Designer.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.iOS\Properties\AssemblyInfo.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\ComHelper.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\Deflate64\BlockType.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\Deflate64\Deflate64Stream.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\Deflate64\FileFormats.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\Deflate64\HuffmanTree.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\Deflate64\InflaterManaged.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\Deflate64\InflaterState.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\Deflate64\InputBuffer.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\Deflate64\MatchState.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\Deflate64\OutputWindow.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\EncryptionAlgorithm.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\Events.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\Exceptions.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\ExtractExistingFileAction.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\FileSelector.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\OffsetStream.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\Shared.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\WinZipAes.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\ZipConstants.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\ZipCrypto.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\ZipDirEntry.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\ZipEntry.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\ZipEntry.Extract.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\ZipEntry.Read.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\ZipEntry.Write.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\ZipEntrySource.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\ZipErrorAction.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\ZipFile.AddUpdate.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\ZipFile.Check.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\ZipFile.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\ZipFile.Events.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\ZipFile.Extract.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\ZipFile.Read.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\ZipFile.Save.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\ZipFile.Selector.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\ZipFile.Static.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\ZipFile.x-IEnumerable.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\ZipInputStream.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\ZipOutputStream.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip.Shared\ZipSegmentedStream.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\ZipReduced\Properties\AssemblyInfo.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip\Properties\AssemblyInfo.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip\Resources\CommandLineSelfExtractorStub.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip\Resources\FolderBrowserDialogEx.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip\Resources\PasswordDialog.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip\Resources\PasswordDialog.Designer.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip\Resources\WinFormsSelfExtractorStub.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip\Resources\WinFormsSelfExtractorStub.Designer.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip\Resources\ZipContentsDialog.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip\Resources\ZipContentsDialog.Designer.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zip\ZipFile.SaveSelfExtractor.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zlib Tests\Properties\AssemblyInfo.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zlib Tests\ZlibUnitTest1.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zlib.Portable\Class1.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zlib.Portable\Properties\AssemblyInfo.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zlib.Shared\CRC32.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zlib.Shared\Deflate.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zlib.Shared\DeflateStream.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zlib.Shared\GZipStream.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zlib.Shared\Inflate.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zlib.Shared\InfTree.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zlib.Shared\ParallelDeflateOutputStream.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zlib.Shared\Tree.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zlib.Shared\Zlib.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zlib.Shared\ZlibBaseStream.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zlib.Shared\ZlibCodec.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zlib.Shared\ZlibConstants.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zlib.Shared\ZlibStream.cs" />
+    <Compile Remove="DotNetZip.Semverd\src\Zlib\properties\AssemblyInfo.cs" />
+    <Compile Remove="Gauntlet\Editor\EditorTest.BootTest.cs" />
+    <Compile Remove="Gauntlet\Editor\RunEditorTests.cs" />
+    <Compile Remove="Gauntlet\Framework\Account\Gauntlet.Account.cs" />
+    <Compile Remove="Gauntlet\Framework\Account\Gauntlet.AccountPool.cs" />
+    <Compile Remove="Gauntlet\Framework\Base\Gauntlet.AppConfig.cs" />
+    <Compile Remove="Gauntlet\Framework\Base\Gauntlet.AppInstall.cs" />
+    <Compile Remove="Gauntlet\Framework\Base\Gauntlet.AppInstance.cs" />
+    <Compile Remove="Gauntlet\Framework\Base\Gauntlet.BaseTestNode.cs" />
+    <Compile Remove="Gauntlet\Framework\Base\Gauntlet.BuildSource.cs" />
+    <Compile Remove="Gauntlet\Framework\Base\Gauntlet.ConfigOption.cs" />
+    <Compile Remove="Gauntlet\Framework\Base\Gauntlet.Database.cs" />
+    <Compile Remove="Gauntlet\Framework\Base\Gauntlet.Denylist.cs" />
+    <Compile Remove="Gauntlet\Framework\Base\Gauntlet.TargetDevice.cs" />
+    <Compile Remove="Gauntlet\Framework\Base\Gauntlet.TestContext.cs" />
+    <Compile Remove="Gauntlet\Framework\Base\Gauntlet.TestNode.cs" />
+    <Compile Remove="Gauntlet\Framework\Base\Gauntlet.TestReport.cs" />
+    <Compile Remove="Gauntlet\Framework\Devices\Gauntlet.DevicePool.cs" />
+    <Compile Remove="Gauntlet\Framework\Devices\Gauntlet.PlatformFirmwareHandler.cs" />
+    <Compile Remove="Gauntlet\Framework\Devices\Gauntlet.UnrealDeviceReservation.cs" />
+    <Compile Remove="Gauntlet\Framework\FileLockInfo.cs" />
+    <Compile Remove="Gauntlet\Framework\Gauntlet.AutoParam.cs" />
+    <Compile Remove="Gauntlet\Framework\Gauntlet.Exception.cs" />
+    <Compile Remove="Gauntlet\Framework\Gauntlet.Params.cs" />
+    <Compile Remove="Gauntlet\Framework\Gauntlet.TestExecutor.cs" />
+    <Compile Remove="Gauntlet\Framework\Gauntlet.TestGroup.cs" />
+    <Compile Remove="Gauntlet\Framework\Gauntlet.Utils.cs" />
+    <Compile Remove="Gauntlet\Framework\Horde\Gauntlet.Horde.cs" />
+    <Compile Remove="Gauntlet\Framework\Utils\Gauntlet.CSVParser.cs" />
+    <Compile Remove="Gauntlet\Framework\Utils\Gauntlet.HordeReport.cs" />
+    <Compile Remove="Gauntlet\Framework\Utils\Gauntlet.HtmlBuilder.cs" />
+    <Compile Remove="Gauntlet\Framework\Utils\Gauntlet.IgnoredIssueConfig.cs" />
+    <Compile Remove="Gauntlet\Framework\Utils\Gauntlet.IniConfigUtil.cs" />
+    <Compile Remove="Gauntlet\Framework\Utils\Gauntlet.MarkdownBuilder.cs" />
+    <Compile Remove="Gauntlet\Platform\Android\Gauntlet.AndroidBuildSource.cs" />
+    <Compile Remove="Gauntlet\Platform\Android\Gauntlet.AndroidPGO.cs" />
+    <Compile Remove="Gauntlet\Platform\Android\Gauntlet.TargetDeviceAndroid.cs" />
+    <Compile Remove="Gauntlet\Platform\IOS\Gauntlet.IOSBuildSource.cs" />
+    <Compile Remove="Gauntlet\Platform\IOS\Gauntlet.TargetDeviceIOS.cs" />
+    <Compile Remove="Gauntlet\Platform\Mac\Gauntlet.MacBuildSource.cs" />
+    <Compile Remove="Gauntlet\Platform\Mac\Gauntlet.SelfTest.TestTargetDeviceMac.cs" />
+    <Compile Remove="Gauntlet\Platform\Mac\Gauntlet.SelfTest.TestUnrealInstallAndRunMac.cs" />
+    <Compile Remove="Gauntlet\Platform\Mac\Gauntlet.TargetDeviceMac.cs" />
+    <Compile Remove="Gauntlet\Platform\Null\Gauntlet.TargetDeviceNull.cs" />
+    <Compile Remove="Gauntlet\Platform\Windows\Gauntlet.SelfTest.TestTargetDeviceWindows.cs" />
+    <Compile Remove="Gauntlet\Platform\Windows\Gauntlet.TargetDeviceWindows.cs" />
+    <Compile Remove="Gauntlet\Platform\Windows\Gauntlet.WindowsBuildSources.cs" />
+    <Compile Remove="Gauntlet\Platform\Windows\Gauntlet.WindowsPGO.cs" />
+    <Compile Remove="Gauntlet\Properties\AssemblyInfo.cs" />
+    <Compile Remove="Gauntlet\Properties\Resources.Designer.cs" />
+    <Compile Remove="Gauntlet\SelfTest\Devices\Gauntlet.SelfTest.TestTargetDevice.cs" />
+    <Compile Remove="Gauntlet\SelfTest\Framework\Gauntlet.SelfTest.CreateGif.cs" />
+    <Compile Remove="Gauntlet\SelfTest\Framework\Gauntlet.SelfTest.OrderOfOpsTest.cs" />
+    <Compile Remove="Gauntlet\SelfTest\Framework\Gauntlet.SelfTest.TestAutoParam.cs" />
+    <Compile Remove="Gauntlet\SelfTest\Framework\Gauntlet.SelfTest.TestParsing.cs" />
+    <Compile Remove="Gauntlet\SelfTest\Framework\Gauntlet.SelfTest.TimeoutTest.cs" />
+    <Compile Remove="Gauntlet\SelfTest\Gauntlet.SelfTest.BaseNode.cs" />
+    <Compile Remove="Gauntlet\SelfTest\Gauntlet.SelfTest.Blank.cs" />
+    <Compile Remove="Gauntlet\SelfTest\Gauntlet.SelfTest.Globals.cs" />
+    <Compile Remove="Gauntlet\SelfTest\TestGauntlet.cs" />
+    <Compile Remove="Gauntlet\SelfTest\Unreal\Gauntlet.SelfTest.LogParserTest.cs" />
+    <Compile Remove="Gauntlet\SelfTest\Unreal\Gauntlet.SelfTest.TestShortSoloGame.cs" />
+    <Compile Remove="Gauntlet\SelfTest\Unreal\Gauntlet.SelfTest.TestUnrealBase.cs" />
+    <Compile Remove="Gauntlet\SelfTest\Unreal\Gauntlet.SelfTest.TestUnrealBuildParsing.cs" />
+    <Compile Remove="Gauntlet\SelfTest\Unreal\Gauntlet.SelfTest.TestUnrealBuildSource.cs" />
+    <Compile Remove="Gauntlet\SelfTest\Unreal\Gauntlet.SelfTest.TestUnrealInstallAndRunBase.cs" />
+    <Compile Remove="Gauntlet\SelfTest\Unreal\Gauntlet.SelfTest.TestUnrealOptions.cs" />
+    <Compile Remove="Gauntlet\SelfTest\Unreal\Gauntlet.SelfTest.TestUnrealSession.cs" />
+    <Compile Remove="Gauntlet\Unreal\Automation\UE.Automation.cs" />
+    <Compile Remove="Gauntlet\Unreal\Automation\UE.BootTest.cs" />
+    <Compile Remove="Gauntlet\Unreal\Automation\UE.ErrorTest.cs" />
+    <Compile Remove="Gauntlet\Unreal\Automation\UE.Networking.cs" />
+    <Compile Remove="Gauntlet\Unreal\Base\Gauntlet.UnrealAppConfig.cs" />
+    <Compile Remove="Gauntlet\Unreal\Base\Gauntlet.UnrealConfigOptions.cs" />
+    <Compile Remove="Gauntlet\Unreal\Base\Gauntlet.UnrealPGONode.cs" />
+    <Compile Remove="Gauntlet\Unreal\Base\Gauntlet.UnrealProcessResult.cs" />
+    <Compile Remove="Gauntlet\Unreal\Base\Gauntlet.UnrealSession.cs" />
+    <Compile Remove="Gauntlet\Unreal\Base\Gauntlet.UnrealTestConfiguration.cs" />
+    <Compile Remove="Gauntlet\Unreal\Base\Gauntlet.UnrealTestContext.cs" />
+    <Compile Remove="Gauntlet\Unreal\Base\Gauntlet.UnrealTestEvent.cs" />
+    <Compile Remove="Gauntlet\Unreal\Base\Gauntlet.UnrealTestNode.cs" />
+    <Compile Remove="Gauntlet\Unreal\BuildSource\Gauntlet.StagedBuildSource.cs" />
+    <Compile Remove="Gauntlet\Unreal\BuildSource\Gauntlet.UnrealBuildSource.cs" />
+    <Compile Remove="Gauntlet\Unreal\Config\Gauntlet.EpicConfig.cs" />
+    <Compile Remove="Gauntlet\Unreal\Editor\EditorTests.cs" />
+    <Compile Remove="Gauntlet\Unreal\Engine\UnrealTests.cs" />
+    <Compile Remove="Gauntlet\Unreal\Game\EpicGame.TestConfig.cs" />
+    <Compile Remove="Gauntlet\Unreal\Game\Samples\ElementalDemoTest.cs" />
+    <Compile Remove="Gauntlet\Unreal\Game\Samples\FortGPUTestbedPerfTest.cs" />
+    <Compile Remove="Gauntlet\Unreal\Game\UnrealGame.DefaultNode.cs" />
+    <Compile Remove="Gauntlet\Unreal\Game\UnrealGame.TestConfig.cs" />
+    <Compile Remove="Gauntlet\Unreal\RunUnreal.cs" />
+    <Compile Remove="Gauntlet\Unreal\Tasks\Gauntlet.Task.CleanDevices.cs" />
+    <Compile Remove="Gauntlet\Unreal\Utils\Gauntlet.AutomationLogParser.cs" />
+    <Compile Remove="Gauntlet\Unreal\Utils\Gauntlet.DeviceUsageReporter.cs" />
+    <Compile Remove="Gauntlet\Unreal\Utils\Gauntlet.ParamDescription.cs" />
+    <Compile Remove="Gauntlet\Unreal\Utils\Gauntlet.UnrealHelpers.cs" />
+    <Compile Remove="Gauntlet\Unreal\Utils\Gauntlet.UnrealLogParser.cs" />
+    <Compile Remove="Gauntlet\Unreal\Utils\Gauntlet.UnrealSnapshotParser.cs" />
+    <Compile Remove="Gauntlet\Unreal\Utils\Gauntlet.UnrealTelemetry.cs" />
+    <Compile Remove="Gauntlet\Unreal\Utils\Gauntlet.UnrealTestResults.cs" />
+    <Compile Remove="HoloLens\HoloLensPlatform.Automation.cs" />
+    <Compile Remove="HoloLens\Properties\AssemblyInfo.cs" />
+    <Compile Remove="IOS\ExportIPAFromArchive.cs" />
+    <Compile Remove="IOS\IOSPlatform.Automation.cs" />
+    <Compile Remove="IOS\MakeIPA.cs" />
+    <Compile Remove="IOS\Properties\AssemblyInfo.cs" />
+    <Compile Remove="IOS\Properties\Resources.Designer.cs" />
+    <Compile Remove="IOS\WriteIniValueToPlist.cs" />
+    <Compile Remove="Linux\LinuxPlatform.Automation.cs" />
+    <Compile Remove="Linux\Properties\AssemblyInfo.cs" />
+    <Compile Remove="Localization\LocalizationProvider.cs" />
+    <Compile Remove="Localization\Properties\AssemblyInfo.cs" />
+    <Compile Remove="LowLevelTests\RunLowLevelTests.cs" />
+    <Compile Remove="LowLevelTests\Tests\Gauntlet.LowLevelTestNode.cs" />
+    <Compile Remove="LowLevelTests\Utility\LowLevelTests.LogParser.cs" />
+    <Compile Remove="Mac\MacPlatform.Automation.cs" />
+    <Compile Remove="Mac\Properties\AssemblyInfo.cs" />
+    <Compile Remove="OneSkyLocalization\OneSkyConfigHelper.cs" />
+    <Compile Remove="OneSkyLocalization\OneSkyLocalizationProvider.cs" />
+    <Compile Remove="OneSkyLocalization\Properties\AssemblyInfo.cs" />
+    <Compile Remove="Scripts\AnalyzeThirdPartyLibs.Automation.cs" />
+    <Compile Remove="Scripts\ArchiveCommand.Automation.cs" />
+    <Compile Remove="Scripts\BenchmarkBuild\BenchmarkBuild.Automation.cs" />
+    <Compile Remove="Scripts\BenchmarkBuild\BenchmarkBuildTests.cs" />
+    <Compile Remove="Scripts\BenchmarkBuild\BenchmarkCookTask.cs" />
+    <Compile Remove="Scripts\BenchmarkBuild\BenchmarkNopCompileTask.cs" />
+    <Compile Remove="Scripts\BenchmarkBuild\BenchmarkRunEditorTask.cs" />
+    <Compile Remove="Scripts\BenchmarkBuild\BenchmarkSingleCompileTask.cs" />
+    <Compile Remove="Scripts\BenchmarkBuild\BenchmarkTaskBase.cs" />
+    <Compile Remove="Scripts\BuildCMakeLib.Automation.cs" />
+    <Compile Remove="Scripts\BuildCommonTools.Automation.cs" />
+    <Compile Remove="Scripts\BuildCookRun.Automation.cs" />
+    <Compile Remove="Scripts\BuildDerivedDataCache.Automation.cs" />
+    <Compile Remove="Scripts\BuildHlslcc.Automation.cs" />
+    <Compile Remove="Scripts\BuildPhysX.Automation.cs" />
+    <Compile Remove="Scripts\BuildPluginCommand.Automation.cs" />
+    <Compile Remove="Scripts\BuildProjectCommand.Automation.cs" />
+    <Compile Remove="Scripts\BuildTarget.Automation.cs" />
+    <Compile Remove="Scripts\BuildThirdPartyLibs.Automation.cs" />
+    <Compile Remove="Scripts\CheckBalancedMacros.cs" />
+    <Compile Remove="Scripts\CheckCsprojDotNetVersion.cs" />
+    <Compile Remove="Scripts\CheckForHacks.cs" />
+    <Compile Remove="Scripts\CheckPerforceCase.cs" />
+    <Compile Remove="Scripts\CheckRestrictedFolders.cs" />
+    <Compile Remove="Scripts\CheckTargetExists.cs" />
+    <Compile Remove="Scripts\CheckXcodeVersion.cs" />
+    <Compile Remove="Scripts\CleanAutomationReports.cs" />
+    <Compile Remove="Scripts\CleanFormalBuilds.Automation.cs" />
+    <Compile Remove="Scripts\CookCommand.Automation.cs" />
+    <Compile Remove="Scripts\CopyBuildToStagingDirectory.Automation.cs" />
+    <Compile Remove="Scripts\CopySharedCookedBuild.Automation.cs" />
+    <Compile Remove="Scripts\CopyUAT.Automation.cs" />
+    <Compile Remove="Scripts\CreateComponentZips.cs" />
+    <Compile Remove="Scripts\CreatePlatformExtension.cs" />
+    <Compile Remove="Scripts\CryptoKeys.Automation.cs" />
+    <Compile Remove="Scripts\DeployCommand.Automation.cs" />
+    <Compile Remove="Scripts\DownloadJupiterBuild.cs" />
+    <Compile Remove="Scripts\ExtractPaks.Automation.cs" />
+    <Compile Remove="Scripts\FinalizeInstalledBuild.cs" />
+    <Compile Remove="Scripts\FixPerforceCase.cs" />
+    <Compile Remove="Scripts\FixupRedirects.Automation.cs" />
+    <Compile Remove="Scripts\GenerateDSYM.Automation.cs" />
+    <Compile Remove="Scripts\GeneratePlatformReport.cs" />
+    <Compile Remove="Scripts\GetFileCommand.Automation.cs" />
+    <Compile Remove="Scripts\IPhonePackager.Automation.cs" />
+    <Compile Remove="Scripts\ListMobileDevices.Automation.cs" />
+    <Compile Remove="Scripts\ListThirdPartySoftware.Automation.cs" />
+    <Compile Remove="Scripts\Localisation.Automation.cs" />
+    <Compile Remove="Scripts\MegaXGE.Automation.cs" />
+    <Compile Remove="Scripts\MemreportHelper.cs" />
+    <Compile Remove="Scripts\OpenEditor.Automation.cs" />
+    <Compile Remove="Scripts\PackageCommand.Automation.cs" />
+    <Compile Remove="Scripts\ParseMsvcTimingInfo.cs" />
+    <Compile Remove="Scripts\Properties\AssemblyInfo.cs" />
+    <Compile Remove="Scripts\RebuildHLODCommand.Automation.cs" />
+    <Compile Remove="Scripts\RebuildLightMapsCommand.Automation.cs" />
+    <Compile Remove="Scripts\RecordPerformance.Automation.cs" />
+    <Compile Remove="Scripts\ReplaceAssetsUsingManifest.cs" />
+    <Compile Remove="Scripts\ResavePackagesCommand.Automation.cs" />
+    <Compile Remove="Scripts\RunProjectCommand.Automation.cs" />
+    <Compile Remove="Scripts\SharedCookedBuild.cs" />
+    <Compile Remove="Scripts\StashTarget.cs" />
+    <Compile Remove="Scripts\SyncBinariesFromUGS.Automation.cs" />
+    <Compile Remove="Scripts\SyncDDC.cs" />
+    <Compile Remove="Scripts\SyncDepotPath.cs" />
+    <Compile Remove="Scripts\SyncProject.Automation.cs" />
+    <Compile Remove="Scripts\UnrealBuildUtils.cs" />
+    <Compile Remove="Scripts\UpdateLocalVersion.Automation.cs" />
+    <Compile Remove="Scripts\UploadDDCToAWS.cs" />
+    <Compile Remove="Scripts\WorldPartitionBuilder.Automation.cs" />
+    <Compile Remove="Scripts\ZipUtils.Automation.cs" />
+    <Compile Remove="Shared\EpicGames.Build\Automation\CommandLine.cs" />
+    <Compile Remove="Shared\EpicGames.Build\Automation\ExitCode.cs" />
+    <Compile Remove="Shared\EpicGames.Build\Automation\FormatCommandLine.cs" />
+    <Compile Remove="Shared\EpicGames.Build\Automation\ProcessSingleton.cs" />
+    <Compile Remove="Shared\EpicGames.Build\Platform\Mac\ApplePlatformSDK.cs" />
+    <Compile Remove="Shared\EpicGames.Build\System\CsProjBuildRecord.cs" />
+    <Compile Remove="Shared\EpicGames.Build\System\DirectoryItem.cs" />
+    <Compile Remove="Shared\EpicGames.Build\System\DirectoryLookupCache.cs" />
+    <Compile Remove="Shared\EpicGames.Build\System\EnumeratePlugins.cs" />
+    <Compile Remove="Shared\EpicGames.Build\System\FileItem.cs" />
+    <Compile Remove="Shared\EpicGames.Build\System\NativeProjectsBase.cs" />
+    <Compile Remove="Shared\EpicGames.Build\System\Rules.cs" />
+    <Compile Remove="Shared\EpicGames.Build\UEBuildPlatformSDK.cs" />
+    <Compile Remove="Shared\EpicGames.Build\Unreal.cs" />
+    <Compile Remove="Shared\EpicGames.Core\AssemblyUtils.cs" />
+    <Compile Remove="Shared\EpicGames.Core\AsyncEvent.cs" />
+    <Compile Remove="Shared\EpicGames.Core\AsyncUtils.cs" />
+    <Compile Remove="Shared\EpicGames.Core\BinaryArchive.cs" />
+    <Compile Remove="Shared\EpicGames.Core\BinaryArchiveAttributes.cs" />
+    <Compile Remove="Shared\EpicGames.Core\BinaryArchiveReader.cs" />
+    <Compile Remove="Shared\EpicGames.Core\BinaryArchiveWriter.cs" />
+    <Compile Remove="Shared\EpicGames.Core\BinaryConverter.cs" />
+    <Compile Remove="Shared\EpicGames.Core\BinaryFormatterUtils.cs" />
+    <Compile Remove="Shared\EpicGames.Core\BinaryReaderExtensions.cs" />
+    <Compile Remove="Shared\EpicGames.Core\BinaryWriterExtensions.cs" />
+    <Compile Remove="Shared\EpicGames.Core\Boxed.cs" />
+    <Compile Remove="Shared\EpicGames.Core\CancellationTask.cs" />
+    <Compile Remove="Shared\EpicGames.Core\CertificateUtils.cs" />
+    <Compile Remove="Shared\EpicGames.Core\CommandLineArguments.cs" />
+    <Compile Remove="Shared\EpicGames.Core\CommandLineAttribute.cs" />
+    <Compile Remove="Shared\EpicGames.Core\CommandLineExtensions.cs" />
+    <Compile Remove="Shared\EpicGames.Core\ContentHash.cs" />
+    <Compile Remove="Shared\EpicGames.Core\CsProjectInfo.cs" />
+    <Compile Remove="Shared\EpicGames.Core\Digest.cs" />
+    <Compile Remove="Shared\EpicGames.Core\DirectoryReference.cs" />
+    <Compile Remove="Shared\EpicGames.Core\DirectoryUtils.cs" />
+    <Compile Remove="Shared\EpicGames.Core\EnumerableExtensions.cs" />
+    <Compile Remove="Shared\EpicGames.Core\ExceptionUtils.cs" />
+    <Compile Remove="Shared\EpicGames.Core\FatalErrorException.cs" />
+    <Compile Remove="Shared\EpicGames.Core\FileFilter.cs" />
+    <Compile Remove="Shared\EpicGames.Core\FileFilterNode.cs" />
+    <Compile Remove="Shared\EpicGames.Core\FilePattern.cs" />
+    <Compile Remove="Shared\EpicGames.Core\FileReference.cs" />
+    <Compile Remove="Shared\EpicGames.Core\FileSystemReference.cs" />
+    <Compile Remove="Shared\EpicGames.Core\FileUtils.cs" />
+    <Compile Remove="Shared\EpicGames.Core\ForwardingLogger.cs" />
+    <Compile Remove="Shared\EpicGames.Core\HelpUtils.cs" />
+    <Compile Remove="Shared\EpicGames.Core\HttpClientExtensions.cs" />
+    <Compile Remove="Shared\EpicGames.Core\ILogCursor.cs" />
+    <Compile Remove="Shared\EpicGames.Core\ILoggerIndent.cs" />
+    <Compile Remove="Shared\EpicGames.Core\ILoggerProgress.cs" />
+    <Compile Remove="Shared\EpicGames.Core\JsonExtensions.cs" />
+    <Compile Remove="Shared\EpicGames.Core\JsonKnownTypes.cs" />
+    <Compile Remove="Shared\EpicGames.Core\JsonLogEvent.cs" />
+    <Compile Remove="Shared\EpicGames.Core\JsonObject.cs" />
+    <Compile Remove="Shared\EpicGames.Core\JsonSchema.cs" />
+    <Compile Remove="Shared\EpicGames.Core\JsonSchemaAttributes.cs" />
+    <Compile Remove="Shared\EpicGames.Core\JsonSchemaType.cs" />
+    <Compile Remove="Shared\EpicGames.Core\JsonTracer.cs" />
+    <Compile Remove="Shared\EpicGames.Core\JsonWriter.cs" />
+    <Compile Remove="Shared\EpicGames.Core\KnownLogEvents.cs" />
+    <Compile Remove="Shared\EpicGames.Core\ListExtensions.cs" />
+    <Compile Remove="Shared\EpicGames.Core\ListSegment.cs" />
+    <Compile Remove="Shared\EpicGames.Core\Log.cs" />
+    <Compile Remove="Shared\EpicGames.Core\LogBuffer.cs" />
+    <Compile Remove="Shared\EpicGames.Core\LogEvent.cs" />
+    <Compile Remove="Shared\EpicGames.Core\LogEventBuilder.cs" />
+    <Compile Remove="Shared\EpicGames.Core\LogEventFormatter.cs" />
+    <Compile Remove="Shared\EpicGames.Core\LogEventParser.cs" />
+    <Compile Remove="Shared\EpicGames.Core\LogIndent.cs" />
+    <Compile Remove="Shared\EpicGames.Core\LogIndentScope.cs" />
+    <Compile Remove="Shared\EpicGames.Core\LogStatusScope.cs" />
+    <Compile Remove="Shared\EpicGames.Core\ManagedProcess.cs" />
+    <Compile Remove="Shared\EpicGames.Core\Md5Hash.cs" />
+    <Compile Remove="Shared\EpicGames.Core\MemoryReader.cs" />
+    <Compile Remove="Shared\EpicGames.Core\MemoryWriter.cs" />
+    <Compile Remove="Shared\EpicGames.Core\MessageTemplate.cs" />
+    <Compile Remove="Shared\EpicGames.Core\ParallelTask.cs" />
+    <Compile Remove="Shared\EpicGames.Core\ProcessUtils.cs" />
+    <Compile Remove="Shared\EpicGames.Core\ReadOnlyHashSet.cs" />
+    <Compile Remove="Shared\EpicGames.Core\ReadOnlyListExtensions.cs" />
+    <Compile Remove="Shared\EpicGames.Core\ReadOnlyMemoryStream.cs" />
+    <Compile Remove="Shared\EpicGames.Core\RuntimePlatform.cs" />
+    <Compile Remove="Shared\EpicGames.Core\ScopeProfiler.cs" />
+    <Compile Remove="Shared\EpicGames.Core\StartupTraceListener.cs" />
+    <Compile Remove="Shared\EpicGames.Core\StringUtils.cs" />
+    <Compile Remove="Shared\EpicGames.Core\StringView.cs" />
+    <Compile Remove="Shared\EpicGames.Core\ThreadPoolWorkQueue.cs" />
+    <Compile Remove="Shared\EpicGames.Core\TraceSpan.cs" />
+    <Compile Remove="Shared\EpicGames.Core\Utf8String.cs" />
+    <Compile Remove="Shared\EpicGames.Core\Win32ExceptionWithCode.cs" />
+    <Compile Remove="Shared\EpicGames.Core\ZipArchiveExtensions.cs" />
+    <Compile Remove="Turnkey\BuildInfo.cs" />
+    <Compile Remove="Turnkey\Commands\Control.cs" />
+    <Compile Remove="Turnkey\Commands\ExecuteBuild.cs" />
+    <Compile Remove="Turnkey\Commands\Help.cs" />
+    <Compile Remove="Turnkey\Commands\InstallBuild.cs" />
+    <Compile Remove="Turnkey\Commands\InstallSdk.cs" />
+    <Compile Remove="Turnkey\Commands\ListPlatforms.cs" />
+    <Compile Remove="Turnkey\Commands\ListSdks.cs" />
+    <Compile Remove="Turnkey\Commands\ManageSettings.cs" />
+    <Compile Remove="Turnkey\Commands\Test.cs" />
+    <Compile Remove="Turnkey\Commands\VerifySdk.cs" />
+    <Compile Remove="Turnkey\CopyAndRun.cs" />
+    <Compile Remove="Turnkey\CopyProvider.cs" />
+    <Compile Remove="Turnkey\FileSource.cs" />
+    <Compile Remove="Turnkey\IOProvider.cs" />
+    <Compile Remove="Turnkey\LocalCache.cs" />
+    <Compile Remove="Turnkey\Properties\AssemblyInfo.cs" />
+    <Compile Remove="Turnkey\Properties\Resources.Designer.cs" />
+    <Compile Remove="Turnkey\Providers\ConsoleIOProvider.cs" />
+    <Compile Remove="Turnkey\Providers\GoogleDriveCopyProvider.cs" />
+    <Compile Remove="Turnkey\Providers\HybridIOProvider.cs" />
+    <Compile Remove="Turnkey\Providers\NullCopyProvider.cs" />
+    <Compile Remove="Turnkey\Providers\PerforceCopyProvider.cs" />
+    <Compile Remove="Turnkey\Providers\ReportIOProvider.cs" />
+    <Compile Remove="Turnkey\Providers\TurnkeyEditorIOClient.cs" />
+    <Compile Remove="Turnkey\SdkInfo.cs" />
+    <Compile Remove="Turnkey\Turnkey.Automation.cs" />
+    <Compile Remove="Turnkey\TurnkeyCommand.cs" />
+    <Compile Remove="Turnkey\TurnkeyGauntletUtils.cs" />
+    <Compile Remove="Turnkey\TurnkeyManifest.cs" />
+    <Compile Remove="Turnkey\TurnkeySettings.cs" />
+    <Compile Remove="Turnkey\TurnkeyUtils.cs" />
+    <Compile Remove="TVOS\Properties\AssemblyInfo.cs" />
+    <Compile Remove="TVOS\TVOSPlatform.Automation.cs" />
+    <Compile Remove="UnrealBuildTool\Configuration\BuildConfiguration.cs" />
+    <Compile Remove="UnrealBuildTool\Configuration\ModuleRules.cs" />
+    <Compile Remove="UnrealBuildTool\Configuration\ModuleRulesContext.cs" />
+    <Compile Remove="UnrealBuildTool\Configuration\TargetDescriptor.cs" />
+    <Compile Remove="UnrealBuildTool\Configuration\TargetInfo.cs" />
+    <Compile Remove="UnrealBuildTool\Configuration\TargetRules.cs" />
+    <Compile Remove="UnrealBuildTool\Configuration\UEBuildBinary.cs" />
+    <Compile Remove="UnrealBuildTool\Configuration\UEBuildBundleResource.cs" />
+    <Compile Remove="UnrealBuildTool\Configuration\UEBuildDeploy.cs" />
+    <Compile Remove="UnrealBuildTool\Configuration\UEBuildFramework.cs" />
+    <Compile Remove="UnrealBuildTool\Configuration\UEBuildModule.cs" />
+    <Compile Remove="UnrealBuildTool\Configuration\UEBuildModuleCPP.cs" />
+    <Compile Remove="UnrealBuildTool\Configuration\UEBuildModuleExternal.cs" />
+    <Compile Remove="UnrealBuildTool\Configuration\UEBuildPlatform.cs" />
+    <Compile Remove="UnrealBuildTool\Configuration\UEBuildPlatformFactory.cs" />
+    <Compile Remove="UnrealBuildTool\Configuration\UEBuildPlugin.cs" />
+    <Compile Remove="UnrealBuildTool\Configuration\UEBuildTarget.cs" />
+    <Compile Remove="UnrealBuildTool\Executors\Experimental\FASTBuild.cs" />
+    <Compile Remove="UnrealBuildTool\Executors\Experimental\TaskExecutor.cs" />
+    <Compile Remove="UnrealBuildTool\Executors\HybridExecutor.cs" />
+    <Compile Remove="UnrealBuildTool\Executors\ParallelExecutor.cs" />
+    <Compile Remove="UnrealBuildTool\Executors\SNDBS.cs" />
+    <Compile Remove="UnrealBuildTool\Executors\XGE.cs" />
+    <Compile Remove="UnrealBuildTool\Modes\AggregateParsedTimingInfo.cs" />
+    <Compile Remove="UnrealBuildTool\Modes\AnalyzeMode.cs" />
+    <Compile Remove="UnrealBuildTool\Modes\BuildMode.cs" />
+    <Compile Remove="UnrealBuildTool\Modes\CleanMode.cs" />
+    <Compile Remove="UnrealBuildTool\Modes\DeployMode.cs" />
+    <Compile Remove="UnrealBuildTool\Modes\ExecuteMode.cs" />
+    <Compile Remove="UnrealBuildTool\Modes\GenerateClangDatabase.cs" />
+    <Compile Remove="UnrealBuildTool\Modes\GenerateProjectFilesMode.cs" />
+    <Compile Remove="UnrealBuildTool\Modes\JsonExportMode.cs" />
+    <Compile Remove="UnrealBuildTool\Modes\ParseMsvcTimingInfo.cs" />
+    <Compile Remove="UnrealBuildTool\Modes\QueryTargetsMode.cs" />
+    <Compile Remove="UnrealBuildTool\Modes\SetupPlatformsMode.cs" />
+    <Compile Remove="UnrealBuildTool\Modes\ValidatePlatformsMode.cs" />
+    <Compile Remove="UnrealBuildTool\Modes\WriteDocumentationMode.cs" />
+    <Compile Remove="UnrealBuildTool\Modes\WriteMetadataMode.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Android\AndroidAARHandler.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Android\AndroidExports.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Android\AndroidPlatformSDK.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Android\AndroidProjectGenerator.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Android\AndroidToolChain.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Android\UEBuildAndroid.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Android\UEDeployAndroid.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\HoloLens\HoloLensDeploy.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\HoloLens\HoloLensExports.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\HoloLens\HoloLensProjectGenerator.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\HoloLens\HoloLensToolChain.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\HoloLens\ManifestGenerator.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\HoloLens\UEBuildHoloLens.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\HoloLens\WinMDRegistrationInfo.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\IOS\IOSExports.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\IOS\IOSPlatformSDK.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\IOS\IOSPostBuildSyncMode.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\IOS\IOSProjectGenerator.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\IOS\IOSToolChain.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\IOS\MobileProvisionContents.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\IOS\UEBuildIOS.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\IOS\UEDeployIOS.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Linux\LinuxCommon.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Linux\LinuxExports.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Linux\LinuxPlatformSDK.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Linux\LinuxProjectGenerator.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Linux\LinuxToolChain.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Linux\UEBuildLinux.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Mac\ApplePlatformSDK.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Mac\MacExports.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Mac\MacProjectGenerator.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Mac\MacToolChain.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Mac\UEBuildMac.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Mac\UEDeployMac.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\TVOS\TVOSExports.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\TVOS\TVOSProjectGenerator.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\TVOS\TVOSToolChain.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\TVOS\UEBuildTVOS.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\TVOS\UEDeployTVOS.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Windows\MicrosoftPlatformSDK.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Windows\PVSToolChain.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Windows\ResXResource\UEResXReader.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Windows\ResXResource\UEResXWriter.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Windows\UEBuildWindows.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Windows\VCCompileAction.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Windows\VCEnvironment.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Windows\VCManifestGenerator.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Windows\VCPreludeCache.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Windows\VCToolChain.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Windows\WindowsExports.cs" />
+    <Compile Remove="UnrealBuildTool\Platform\Windows\WindowsProjectGenerator.cs" />
+    <Compile Remove="UnrealBuildTool\Preprocessor\Identifier.cs" />
+    <Compile Remove="UnrealBuildTool\Preprocessor\Preprocessor.cs" />
+    <Compile Remove="UnrealBuildTool\Preprocessor\PreprocessorContext.cs" />
+    <Compile Remove="UnrealBuildTool\Preprocessor\PreprocessorExpression.cs" />
+    <Compile Remove="UnrealBuildTool\Preprocessor\PreprocessorMacro.cs" />
+    <Compile Remove="UnrealBuildTool\Preprocessor\PreprocessorState.cs" />
+    <Compile Remove="UnrealBuildTool\Preprocessor\PreprocessorTransform.cs" />
+    <Compile Remove="UnrealBuildTool\Preprocessor\SourceFile.cs" />
+    <Compile Remove="UnrealBuildTool\Preprocessor\SourceFileFragment.cs" />
+    <Compile Remove="UnrealBuildTool\Preprocessor\SourceFileMarkup.cs" />
+    <Compile Remove="UnrealBuildTool\Preprocessor\Token.cs" />
+    <Compile Remove="UnrealBuildTool\Preprocessor\TokenReader.cs" />
+    <Compile Remove="UnrealBuildTool\ProjectFiles\CLion\CLionGenerator.cs" />
+    <Compile Remove="UnrealBuildTool\ProjectFiles\CMake\CMakefileGenerator.cs" />
+    <Compile Remove="UnrealBuildTool\ProjectFiles\CodeLite\CodeLiteGenerator.cs" />
+    <Compile Remove="UnrealBuildTool\ProjectFiles\CodeLite\CodeLiteProject.cs" />
+    <Compile Remove="UnrealBuildTool\ProjectFiles\Eddie\EddieGenerator.cs" />
+    <Compile Remove="UnrealBuildTool\ProjectFiles\Eddie\EddieProject.cs" />
+    <Compile Remove="UnrealBuildTool\ProjectFiles\KDevelop\KDevelopGenerator.cs" />
+    <Compile Remove="UnrealBuildTool\ProjectFiles\Make\MakefileGenerator.cs" />
+    <Compile Remove="UnrealBuildTool\ProjectFiles\PlatformProjectGenerator.cs" />
+    <Compile Remove="UnrealBuildTool\ProjectFiles\PlatformProjectGeneratorCollection.cs" />
+    <Compile Remove="UnrealBuildTool\ProjectFiles\Project.cs" />
+    <Compile Remove="UnrealBuildTool\ProjectFiles\ProjectFileGenerator.cs" />
+    <Compile Remove="UnrealBuildTool\ProjectFiles\QMake\QMakefileGenerator.cs" />
+    <Compile Remove="UnrealBuildTool\ProjectFiles\Rider\RiderProjectFile.cs" />
+    <Compile Remove="UnrealBuildTool\ProjectFiles\Rider\RiderProjectFileGenerator.cs" />
+    <Compile Remove="UnrealBuildTool\ProjectFiles\Rider\ToolchainInfo.cs" />
+    <Compile Remove="UnrealBuildTool\ProjectFiles\VisualStudioCode\VSCodeProjectFileGenerator.cs" />
+    <Compile Remove="UnrealBuildTool\ProjectFiles\VisualStudioMac\VisualStudioMacProjectFileGenerator.cs" />
+    <Compile Remove="UnrealBuildTool\ProjectFiles\VisualStudio\VCProject.cs" />
+    <Compile Remove="UnrealBuildTool\ProjectFiles\VisualStudio\VCProjectFileGenerator.cs" />
+    <Compile Remove="UnrealBuildTool\ProjectFiles\VisualStudio\VCSolutionOptions.cs" />
+    <Compile Remove="UnrealBuildTool\ProjectFiles\Xcode\XcodeFrameworkWrapperProject.cs" />
+    <Compile Remove="UnrealBuildTool\ProjectFiles\Xcode\XcodeProject.cs" />
+    <Compile Remove="UnrealBuildTool\ProjectFiles\Xcode\XcodeProjectFileGenerator.cs" />
+    <Compile Remove="UnrealBuildTool\Properties\AssemblyInfo.cs" />
+    <Compile Remove="UnrealBuildTool\Storage\Impl\FileSystemStorageProvider.cs" />
+    <Compile Remove="UnrealBuildTool\Storage\IStorageProvider.cs" />
+    <Compile Remove="UnrealBuildTool\System\Action.cs" />
+    <Compile Remove="UnrealBuildTool\System\ActionExecutor.cs" />
+    <Compile Remove="UnrealBuildTool\System\ActionGraph.cs" />
+    <Compile Remove="UnrealBuildTool\System\ActionGraphBuilder.cs" />
+    <Compile Remove="UnrealBuildTool\System\ActionHistory.cs" />
+    <Compile Remove="UnrealBuildTool\System\ActionSerializer.cs" />
+    <Compile Remove="UnrealBuildTool\System\Asn.cs" />
+    <Compile Remove="UnrealBuildTool\System\BuildException.cs" />
+    <Compile Remove="UnrealBuildTool\System\BuildHostPlatform.cs" />
+    <Compile Remove="UnrealBuildTool\System\BuildVersion.cs" />
+    <Compile Remove="UnrealBuildTool\System\CommandLine.cs" />
+    <Compile Remove="UnrealBuildTool\System\ConfigCache.cs" />
+    <Compile Remove="UnrealBuildTool\System\ConfigFile.cs" />
+    <Compile Remove="UnrealBuildTool\System\ConfigFileAttribute.cs" />
+    <Compile Remove="UnrealBuildTool\System\ConfigHierarchy.cs" />
+    <Compile Remove="UnrealBuildTool\System\ConfigValueTracker.cs" />
+    <Compile Remove="UnrealBuildTool\System\CppCompileEnvironment.cs" />
+    <Compile Remove="UnrealBuildTool\System\CppDependencyCache.cs" />
+    <Compile Remove="UnrealBuildTool\System\CppIncludeParser.cs" />
+    <Compile Remove="UnrealBuildTool\System\CustomBuildSteps.cs" />
+    <Compile Remove="UnrealBuildTool\System\DataDrivenPlatformInfo.cs" />
+    <Compile Remove="UnrealBuildTool\System\DeployExports.cs" />
+    <Compile Remove="UnrealBuildTool\System\DynamicCompilation.cs" />
+    <Compile Remove="UnrealBuildTool\System\EncryptionAndSigning.cs" />
+    <Compile Remove="UnrealBuildTool\System\ExternalExecution.cs" />
+    <Compile Remove="UnrealBuildTool\System\FileMetadataPrefetch.cs" />
+    <Compile Remove="UnrealBuildTool\System\GraphVisualization.cs" />
+    <Compile Remove="UnrealBuildTool\System\HotReload.cs" />
+    <Compile Remove="UnrealBuildTool\System\InstalledPlatformInfo.cs" />
+    <Compile Remove="UnrealBuildTool\System\JsonExtensions.cs" />
+    <Compile Remove="UnrealBuildTool\System\JunkDeleter.cs" />
+    <Compile Remove="UnrealBuildTool\System\LinkEnvironment.cs" />
+    <Compile Remove="UnrealBuildTool\System\LocalizationDescriptor.cs" />
+    <Compile Remove="UnrealBuildTool\System\ModuleDescriptor.cs" />
+    <Compile Remove="UnrealBuildTool\System\ModuleManifest.cs" />
+    <Compile Remove="UnrealBuildTool\System\NativeProjects.cs" />
+    <Compile Remove="UnrealBuildTool\System\ObsoleteOverrideAttribute.cs" />
+    <Compile Remove="UnrealBuildTool\System\PlatformExports.cs" />
+    <Compile Remove="UnrealBuildTool\System\PluginDescriptor.cs" />
+    <Compile Remove="UnrealBuildTool\System\PluginReferenceDescriptor.cs" />
+    <Compile Remove="UnrealBuildTool\System\Plugins.cs" />
+    <Compile Remove="UnrealBuildTool\System\PrecompiledHeaderInstance.cs" />
+    <Compile Remove="UnrealBuildTool\System\PrecompiledHeaderTemplate.cs" />
+    <Compile Remove="UnrealBuildTool\System\PrecompiledManifest.cs" />
+    <Compile Remove="UnrealBuildTool\System\ProgressWriter.cs" />
+    <Compile Remove="UnrealBuildTool\System\ProjectDescriptor.cs" />
+    <Compile Remove="UnrealBuildTool\System\RestrictedFolders.cs" />
+    <Compile Remove="UnrealBuildTool\System\RulesAssembly.cs" />
+    <Compile Remove="UnrealBuildTool\System\RulesCompiler.cs" />
+    <Compile Remove="UnrealBuildTool\System\RulesDocumentation.cs" />
+    <Compile Remove="UnrealBuildTool\System\RulesScope.cs" />
+    <Compile Remove="UnrealBuildTool\System\ScopedTimer.cs" />
+    <Compile Remove="UnrealBuildTool\System\SingleInstanceMutex.cs" />
+    <Compile Remove="UnrealBuildTool\System\SourceFileMetadataCache.cs" />
+    <Compile Remove="UnrealBuildTool\System\SourceFileSearch.cs" />
+    <Compile Remove="UnrealBuildTool\System\SourceFileWorkingSet.cs" />
+    <Compile Remove="UnrealBuildTool\System\Subnet.cs" />
+    <Compile Remove="UnrealBuildTool\System\SupportedConfigurationsAttribute.cs" />
+    <Compile Remove="UnrealBuildTool\System\SupportedPlatformsAttribute.cs" />
+    <Compile Remove="UnrealBuildTool\System\TargetMakefile.cs" />
+    <Compile Remove="UnrealBuildTool\System\TargetReceipt.cs" />
+    <Compile Remove="UnrealBuildTool\System\Timeline.cs" />
+    <Compile Remove="UnrealBuildTool\System\TimingData.cs" />
+    <Compile Remove="UnrealBuildTool\System\ToolMode.cs" />
+    <Compile Remove="UnrealBuildTool\System\UniqueStringRegistry.cs" />
+    <Compile Remove="UnrealBuildTool\System\Unity.cs" />
+    <Compile Remove="UnrealBuildTool\System\UnrealPluginLanguage.cs" />
+    <Compile Remove="UnrealBuildTool\System\Utils.cs" />
+    <Compile Remove="UnrealBuildTool\System\VersionNumber.cs" />
+    <Compile Remove="UnrealBuildTool\System\VersionNumberRange.cs" />
+    <Compile Remove="UnrealBuildTool\System\XmlConfig.cs" />
+    <Compile Remove="UnrealBuildTool\System\XmlConfigData.cs" />
+    <Compile Remove="UnrealBuildTool\System\XmlConfigFile.cs" />
+    <Compile Remove="UnrealBuildTool\System\XmlConfigFileAttribute.cs" />
+    <Compile Remove="UnrealBuildTool\ToolChain\AppleToolChain.cs" />
+    <Compile Remove="UnrealBuildTool\ToolChain\RemoteMac.cs" />
+    <Compile Remove="UnrealBuildTool\ToolChain\UEToolChain.cs" />
+    <Compile Remove="UnrealBuildTool\UnrealBuildTool.cs" />
+    <Compile Remove="Win\Properties\AssemblyInfo.cs" />
+    <Compile Remove="Win\Tasks\SrcSrvTask.cs" />
+    <Compile Remove="Win\WinPlatform.Automation.cs" />
+    <Compile Remove="Win\WinResources.cs" />
+    <Compile Remove="XLocLocalization\Properties\AssemblyInfo.cs" />
+    <Compile Remove="XLocLocalization\XLocLocalizationProvider.cs" />
+    <Compile Remove="XLocLocalization\XLocService\TransferService.cs" />
+    <Compile Remove="XLocLocalization\XLocService\XLocApiService.cs" />
+  </ItemGroup>
 </Project>

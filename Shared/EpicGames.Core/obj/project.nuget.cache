@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "dgSpecHash": "aSc9PgppwKlFdRjlUlbWLRbt7nO5s+mMwsyKeMfTimR+rdvZiXwy+Fgp+GNwNnOPYzuwgpLSP61QDvyv/eKHDw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Ludovic\\UAT\\Shared\\EpicGames.Core\\EpicGames.Core.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Ludovic\\.nuget\\packages\\jetbrains.annotations\\2021.2.0\\jetbrains.annotations.2021.2.0.nupkg.sha512",
+    "C:\\Users\\Ludovic\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\5.0.0\\microsoft.extensions.dependencyinjection.5.0.0.nupkg.sha512",
+    "C:\\Users\\Ludovic\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\Ludovic\\.nuget\\packages\\microsoft.extensions.logging\\5.0.0\\microsoft.extensions.logging.5.0.0.nupkg.sha512",
+    "C:\\Users\\Ludovic\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\5.0.0\\microsoft.extensions.logging.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\Ludovic\\.nuget\\packages\\microsoft.extensions.options\\5.0.0\\microsoft.extensions.options.5.0.0.nupkg.sha512",
+    "C:\\Users\\Ludovic\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512",
+    "C:\\Users\\Ludovic\\.nuget\\packages\\opentracing\\0.12.1\\opentracing.0.12.1.nupkg.sha512",
+    "C:\\Users\\Ludovic\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512"
+  ],
+  "logs": []
+}
