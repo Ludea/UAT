@@ -18,7 +18,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build DotnetZip.reduced
-      run: dotnet build Dotnet "Zip.Semverd/src/Zip Reduced/Zip Reduced.csproj"
+      run: dotnet build Dotnet DotNetZip.Semverd/src/ZipReduced/ZipReduced.csproj"
     - name: Build !UBT
       run: dotnet build UnrealBuildTool/UnrealBuildTool.csproj
     - name: Build UAT
