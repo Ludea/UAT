@@ -10,7 +10,7 @@
     <RootNamespace>Zip_Reduced</RootNamespace>
     <AssemblyName>Ionic.Zip.Reduced</AssemblyName>
     <TargetFramework>TargetFramework</TargetFramework>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <FileAlignment>512</FileAlignment>
     <StartupObject>
     </StartupObject>
