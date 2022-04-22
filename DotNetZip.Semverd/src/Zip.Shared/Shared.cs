@@ -25,6 +25,7 @@
 
 using System;
 using System.IO;
+using System.Security.Permission;
 
 namespace Ionic.Zip
 {
