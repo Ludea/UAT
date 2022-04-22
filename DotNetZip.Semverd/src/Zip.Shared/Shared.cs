@@ -25,7 +25,6 @@
 
 using System;
 using System.IO;
-using System.Security.Permissions;
 
 namespace Ionic.Zip
 {
@@ -588,38 +587,8 @@ namespace Ionic.Zip
 
             do
             {
-                try
-                {
-                    n = s.Read(buffer, offset, count);
-                    done = true;
-                }
-                catch (System.IO.IOException ioexc1)
-                {
-                    // Check if we can call GetHRForException,
-                    // which makes unmanaged code calls.
-                    var p = new System.Security.Permissions.SecurityPermission(
-                        System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode);
-                    if (p.IsUnrestricted())
-                    {
-                        uint hresult = _HRForException(ioexc1);
-                        if (hresult != 0x80070021)  // ERROR_LOCK_VIOLATION
-                            throw new System.IO.IOException(String.Format("Cannot read file {0}", FileName), ioexc1);
-                        retries++;
-                        if (retries > 10)
-                            throw new System.IO.IOException(String.Format("Cannot read file {0}, at offset 0x{1:X8} after 10 retries", FileName, offset), ioexc1);
-
-                        // max time waited on last retry = 250 + 10*550 = 5.75s
-                        // aggregate time waited after 10 retries: 250 + 55*550 = 30.5s
-                        System.Threading.Thread.Sleep(250 + retries * 550);
-                    }
-                    else
-                    {
-                        // The permission.Demand() failed. Therefore, we cannot call
-                        // GetHRForException, and cannot do the subtle handling of
-                        // ERROR_LOCK_VIOLATION.  Just bail.
-                        throw;
-                    }
-                }
+                n = s.Read(buffer, offset, count);
+                done = true;
             }
             while (!done);
 
