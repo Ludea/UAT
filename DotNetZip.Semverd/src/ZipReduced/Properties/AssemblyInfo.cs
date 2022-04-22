@@ -9,9 +9,6 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Ionic's Zip Library (Reduced)")]
 
-[assembly: AssemblyConfiguration("Retail")]
-[assembly: AssemblyDescription("a library for handling zip archives. http://www.codeplex.com/DotNetZip.  This is a reduced version; it lacks SFX support. (Flavor=Retail)")]
-
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
 // COM, set the ComVisible attribute to true on that type.
