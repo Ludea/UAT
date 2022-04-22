@@ -113,7 +113,6 @@
     <Compile Include="BZip2OutputStream.cs" />
     <Compile Include="ParallelBZip2OutputStream.cs" />
     <Compile Include="BitWriter.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\CommonSrc\CRC32.cs">
       <Link>CRC32.cs</Link>
     </Compile>
