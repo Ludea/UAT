@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "Ionic.Zip.Reduced/1.0.0": {
+        "runtime": {
+          "Ionic.Zip.Reduced.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Ionic.Zip.Reduced/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

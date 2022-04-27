@@ -1,0 +1,12 @@
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\ZipReduced\obj\Release\net6.0\ZipReduced.csproj.AssemblyReference.cache
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\ZipReduced\obj\Release\net6.0\ZipReduced.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\ZipReduced\obj\Release\net6.0\ZipReduced.AssemblyInfoInputs.cache
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\ZipReduced\obj\Release\net6.0\ZipReduced.AssemblyInfo.cs
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\ZipReduced\obj\Release\net6.0\ZipReduced.csproj.CoreCompileInputs.cache
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\ZipReduced\bin\Release\net6.0\Ionic.Zip.Reduced.deps.json
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\ZipReduced\bin\Release\net6.0\Ionic.Zip.Reduced.dll
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\ZipReduced\bin\Release\net6.0\Ionic.Zip.Reduced.pdb
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\ZipReduced\obj\Release\net6.0\Ionic.Zip.Reduced.dll
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\ZipReduced\obj\Release\net6.0\refint\Ionic.Zip.Reduced.dll
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\ZipReduced\obj\Release\net6.0\Ionic.Zip.Reduced.pdb
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\ZipReduced\obj\Release\net6.0\ref\Ionic.Zip.Reduced.dll
