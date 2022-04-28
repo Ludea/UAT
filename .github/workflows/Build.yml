@@ -17,10 +17,11 @@ jobs:
         dotnet-version: 6.0.x
     - name: Restore dependencies
       run: dotnet restore
+    - name: deps
+      run: dotnet add package Microsoft.VisualStudio.Setup.Configuration.Interop
     - name: Build DotnetZip.reduced
       run: |
         dotnet build --configuration Release --os linux DotNetZip.Semverd/src/ZipReduced/ZipReduced.csproj
-        ls DotNetZip.Semverd/src/ZipReduced/bin/Release/net6.0
     - name: Build UBT
       run: dotnet build UnrealBuildTool/UnrealBuildTool.csproj
     - name: Build UAT
