@@ -54,7 +54,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ionic.Zip.Reduced">
-      <HintPath>..\..\..\Binaries\DotNET\Ionic.Zip.Reduced.dll</HintPath>
+      <HintPath>../DotNetZip.Semverd/src/ZipReduced/bin/Release/net6.0/Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Setup.Configuration.Interop">
       <HintPath>..\..\..\Binaries\ThirdParty\VisualStudio\Microsoft.VisualStudio.Setup.Configuration.Interop.dll</HintPath>
