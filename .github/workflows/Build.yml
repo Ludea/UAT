@@ -19,8 +19,8 @@ jobs:
       run: dotnet restore
     - name: Build DotnetZip.reduced
       run: |
-	dotnet build --configuration Release DotNetZip.Semverd/src/ZipReduced/ZipReduced.csproj
-	ls DotNetZip.Semverd/src/ZipReduced/bin/Release/net6.0
+        dotnet build --configuration Release DotNetZip.Semverd/src/ZipReduced/ZipReduced.csproj
+        ls DotNetZip.Semverd/src/ZipReduced/bin/Release/net6.0
    - name: Build UBT
       run: dotnet build UnrealBuildTool/UnrealBuildTool.csproj
     - name: Build UAT
