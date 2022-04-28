@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "2xoMplXvGLdtlQZ3mPmbMw8Sdv1/hIfUlE/iFo5iqbxShYiA0QgQgCn/5i2lLeFkZ6aoQJe8+14M+DfAa4BZzQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Ludovic\\UAT\\DotNetZip.Semverd\\src\\Zlib\\Zlib.DLL.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Ludovic\\.nuget\\packages\\microsoft.dotnet.upgradeassistant.extensions.default.analyzers\\0.3.310801\\microsoft.dotnet.upgradeassistant.extensions.default.analyzers.0.3.310801.nupkg.sha512",
+    "C:\\Users\\Ludovic\\.nuget\\packages\\system.codedom\\6.0.0\\system.codedom.6.0.0.nupkg.sha512",
+    "C:\\Users\\Ludovic\\.nuget\\packages\\system.management\\6.0.0\\system.management.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

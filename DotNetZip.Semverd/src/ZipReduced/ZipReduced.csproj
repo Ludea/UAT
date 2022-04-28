@@ -92,6 +92,4 @@
       <Link>Ionic.snk</Link>
     </None>
   </ItemGroup>
-  <Import Project="..\Zip.Shared\Zip.Shared.projitems" Label="Shared" />
-  <Import Project="..\Zlib.Shared\Zlib.Shared.projitems" Label="Shared" />
 </Project>
