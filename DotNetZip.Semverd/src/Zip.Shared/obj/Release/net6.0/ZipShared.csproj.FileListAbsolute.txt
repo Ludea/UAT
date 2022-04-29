@@ -1,0 +1,5 @@
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\Zip.Shared\obj\Release\net6.0\ZipShared.csproj.AssemblyReference.cache
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\Zip.Shared\obj\Release\net6.0\ZipShared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\Zip.Shared\obj\Release\net6.0\ZipShared.AssemblyInfoInputs.cache
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\Zip.Shared\obj\Release\net6.0\ZipShared.AssemblyInfo.cs
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\Zip.Shared\obj\Release\net6.0\ZipShared.csproj.CoreCompileInputs.cache

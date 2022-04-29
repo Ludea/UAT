@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "eIrCZrrNF/2eF7lonE7uRRKzl9jhC2rsK6AD9NuQkpYaF1mYssqGvRIBacK2eml3VjskzEZD+Pz/i7GDaYRfog==",
+  "dgSpecHash": "epywp3MXV6VYM54VjxACmqrFbRKZ9z+SbpsYtahRRvwr/h3A3pWUtMnTjjNYU/BP/iuggqy65qieyn030R/0hw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Ludovic\\UAT\\DotNetZip.Semverd\\src\\Zip.Shared\\Zip.Shared.csproj",
+  "projectFilePath": "C:\\Users\\Ludovic\\UAT\\DotNetZip.Semverd\\src\\Zip.Shared\\ZipShared.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
