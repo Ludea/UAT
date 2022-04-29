@@ -1,0 +1,12 @@
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\Zlib.Shared\bin\Debug\net6.0\Zlib.Shared.deps.json
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\Zlib.Shared\bin\Debug\net6.0\Zlib.Shared.dll
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\Zlib.Shared\bin\Debug\net6.0\Zlib.Shared.pdb
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\Zlib.Shared\obj\Debug\net6.0\Zlib.Shared.csproj.AssemblyReference.cache
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\Zlib.Shared\obj\Debug\net6.0\Zlib.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\Zlib.Shared\obj\Debug\net6.0\Zlib.Shared.AssemblyInfoInputs.cache
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\Zlib.Shared\obj\Debug\net6.0\Zlib.Shared.AssemblyInfo.cs
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\Zlib.Shared\obj\Debug\net6.0\Zlib.Shared.csproj.CoreCompileInputs.cache
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\Zlib.Shared\obj\Debug\net6.0\Zlib.Shared.dll
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\Zlib.Shared\obj\Debug\net6.0\refint\Zlib.Shared.dll
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\Zlib.Shared\obj\Debug\net6.0\Zlib.Shared.pdb
+C:\Users\Ludovic\UAT\DotNetZip.Semverd\src\Zlib.Shared\obj\Debug\net6.0\ref\Zlib.Shared.dll
