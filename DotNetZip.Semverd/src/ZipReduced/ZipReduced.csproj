@@ -91,5 +91,6 @@
     <None Include="..\Ionic.snk">
       <Link>Ionic.snk</Link>
     </None>
+    <None Include="Zlib.Shared.csproj" />
   </ItemGroup>
 </Project>
